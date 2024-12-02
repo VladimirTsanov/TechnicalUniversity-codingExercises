@@ -17,3 +17,7 @@ def longest_repeating_sequence(numbers):
         max_sequence = current_sequence
 
     return max_sequence
+    
+numbers = [1, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5]
+sequence = longest_repeating_sequence(numbers)
+print(sequence)
