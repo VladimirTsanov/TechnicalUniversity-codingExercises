@@ -7,3 +7,4 @@ def text_edit_by_numbers(text, *num):
             print(' '.join(text_letters[i]), end="")
         except IndexError:
             pass
+text_edit_by_numbers("qwertyuiop", 1, 3, 5, 6)
