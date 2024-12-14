@@ -1,0 +1,195 @@
+import datetime
+class FitnessCenter:
+    def __init__(self, name, users, employees, trainers, managers):
+        self.name = name
+        self.daily_visits = 0
+        try:
+            if isinstance(users, list) and isinstance(employees,
+            list) and isinstance(trainers, list) and isinstance(managers, list):
+                self.users = users
+                self.employees = employees
+                self.trainers = trainers
+                self.managers = managers
+        except ValueError:
+            print("Enter as a lists all but first parameters")
+
+    def add_user(self, user):
+        self.users.append([user, self.daily_visits])
+        print("The user was added: ", self.users)
+    def add_employee(self, employee):
+        self.employees.append(employee)
+        print("The employee was added: ", self.employees)
+    def add_trainer(self, trainer):
+        self.trainers.append(trainer)
+        print("The trainer was added: ", self.trainers)
+    def add_manager(self, manager):
+        self.managers.append(manager)
+        print("The manager was added: ", self.managers)
+    def track_daily_visits(self, user_id):
+        dict_log = {}
+        for user in self.users:
+            try:
+                if user_id == self.users.index(user):
+                    user[1] += 1
+                    dict_log[f"{user[0]}, {datetime.datetime.now()}"] = user[1]
+                elif user_id < 0 :
+                    print("Type a positive number as argument")
+            except IndexError:
+                print("Add a user in the list or choose different user_id (counting from0)")
+        for log in dict_log:
+            print(f"{log} : {dict_log[log]}")
+
+class Manager:
+    def __init__(self, manager_id, fname, lname, organized_events):
+        self.manager_id = manager_id
+        self.fname = fname
+        self.lname = lname
+
+        if isinstance(organized_events, list):
+                self.organized_events = organized_events
+        else:
+            print("You should input a list as an argument")
+    def organize_event(self, event_name, date):
+        while True:
+            if not self.organized_events:
+                self.organized_events.append((event_name, date))
+                print(f"You added successfully {event_name} with date {date}")
+                break
+            else:
+                for event in self.organized_events:
+                    if event[0] == event_name:
+                        raise NameError("Event already exist")
+                    else:
+                        self.organized_events.append((event_name, date))
+                        print(f"You added successfully {event_name} with date {date}\n")
+                break
+    def manager_information(self):
+        print(f"Manager info:\n"
+              f"ID: {self.manager_id} \n"
+              f"Name: {self.fname} {self.lname} \n"
+              f"Organized events: {self.organized_events}")
+class Student:
+    def __init__(self, student_id, fname, lname, monthly_visits):
+        self.student_id = student_id
+        self.fname = fname
+        self.lname = lname
+        self.monthly_visits = monthly_visits
+    def early_access_pass(self):
+        if self.monthly_visits > 15:
+            print("The student can get an early access pass\n")
+        else:
+            print("The student cannot get an early access pass\n")
+    def student_information(self):
+        print(f"Student info:\n"
+              f"Student ID: {self.student_id} \n"
+              f"Name: {self.fname} {self.lname} \n"
+              f"Monthly visits: {self.monthly_visits}")
+class RegularUser:
+    def __init__(self, user_id, fname, lname, workouts_count):
+        self.user_id = user_id
+        self.fname = fname
+        self.lname = lname
+        self.workouts_counts = workouts_count
+        self.vip_status = False
+    def promote_to_vip(self):
+        if self.workouts_counts > 100:
+            self.vip_status = True
+            print("The client has become a VIP!\n")
+        else:
+            print("The client hasn't enough visits to become a VIP\n")
+    def user_information(self):
+        print(f"User info:\n"
+              f"User ID: {self.user_id} \n"
+              f"Name: {self.fname} {self.lname}\n"
+              f"Workouts: {self.workouts_counts} \n"
+              f"VIP Status: {self.vip_status}")
+class Employee:
+    def __init__(self, employee_id, fname, lname, evaluations):
+        self.employee_id = employee_id
+        self.fname = fname
+        self.lname = lname
+        try:
+            if isinstance(evaluations, list):
+                self.evaluations = evaluations
+        except ValueError:
+            print("Input a list as last argument")
+
+    def receive_evaluation(self, manager_id, evaluation_score):
+        self.evaluations.append(evaluation_score)
+        print(f"The score was added. The average score yet is: {sum(self.evaluations)/len(self.evaluations)}")
+    def employee_info(self):
+        print(f"Employee info:\n"
+              f"ID: {self.employee_id} \n"
+              f"Name: {self.fname} {self.lname}\n"
+              f"Evaluations: {self.evaluations}")
+class PersonalTrainer:
+    def __init__(self, trainer_id, fname, lname, group_workouts):
+        self.trainer_id = trainer_id
+        self.fname = fname
+        self.lname = lname
+        try:
+            if isinstance(group_workouts, list):
+                self.group_workouts = group_workouts
+        except ValueError:
+            print("The last two arguments should be lists\n")
+    def organize_group_workout(self, workout_type, max_clients):
+        if max_clients >= 5:
+            self.group_workouts.append((workout_type, max_clients))
+        else:
+            print("Minimum of 5 customers is required!\n")
+    def trainer_information(self):
+        print(f"Trainer info:\n"
+              f"ID: {self.trainer_id} \n"
+              f"Name: {self.fname} {self.lname}  \n"
+              f"Group Workouts: {self.group_workouts}")
+
+
+fitness_center = FitnessCenter(
+    name="FitClub",
+    users=[],
+    employees=[],
+    trainers=[],
+    managers=[]
+)
+
+
+fitness_center.add_user("John Doe")
+fitness_center.add_user("Jane Smith")
+
+fitness_center.add_employee("Emily Johnson")
+fitness_center.add_employee("Michael Brown")
+
+fitness_center.add_trainer("Chris Wilson")
+fitness_center.add_trainer("Patricia Taylor")
+
+fitness_center.add_manager("Lisa Davis")
+fitness_center.add_manager("James Garcia")
+
+fitness_center.track_daily_visits(0)
+fitness_center.track_daily_visits(1)
+
+
+manager = Manager(
+    manager_id=1,
+    fname="Anna",
+    lname="Green",
+    organized_events=[]
+)
+manager.organize_event("Yoga Session", "2024-12-20")
+manager.manager_information()
+
+student = Student(student_id=1, fname="Mike", lname="Johnson", monthly_visits=10)
+student.early_access_pass()
+student.student_information()
+
+regular_user = RegularUser(user_id=1, fname="Sarah", lname="White", workouts_count=50)
+regular_user.promote_to_vip()
+regular_user.user_information()
+
+employee = Employee(employee_id=1, fname="Tom", lname="Clark", evaluations=[])
+employee.receive_evaluation(manager_id=1, evaluation_score=8)
+employee.employee_info()
+
+trainer = PersonalTrainer(trainer_id=1, fname="Laura", lname="Black", group_workouts=[])
+trainer.organize_group_workout("HIIT", max_clients=10)
+trainer.trainer_information()
